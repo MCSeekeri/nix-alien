@@ -1,7 +1,7 @@
 {
   description = "${__name__}-fhs";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/@nixpkgsRev@";
+  inputs.nixpkgs.url = "@nixpkgsRef@";
 
   outputs = { self, nixpkgs }:
     let

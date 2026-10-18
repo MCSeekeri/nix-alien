@@ -1,9 +1,7 @@
 { pkgs ? import
-    (builtins.fetchTarball {
-      name = "nixpkgs-unstable-@nixpkgsLastModifiedDate@";
-      url = "https://github.com/NixOS/nixpkgs/archive/@nixpkgsRev@.tar.gz";
-      sha256 = "@nixpkgsHash@";
-    })
+    (let p = "@nixpkgsPath@";
+     in if builtins.pathExists p then builtins.storePath p
+        else builtins.fetchTree "@nixpkgsRef@")
     { }
 }:
 

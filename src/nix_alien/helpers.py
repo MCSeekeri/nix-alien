@@ -8,7 +8,7 @@ from pathlib import Path
 from string import Template
 from typing import Optional
 
-UUID_NAMESPACE = uuid.UUID("eebf3397-2041-4370-bf33-937b33d5c959")
+UUID_NAMESPACE = uuid.UUID("17e1c61c-a154-4abf-83f0-f9d374a9ed3c")
 
 
 def edit_file(file: Path) -> subprocess.CompletedProcess:

@@ -12,31 +12,31 @@ def test_edit_file(monkeypatch):
 def test_get_hash_for_program(monkeypatch):
     monkeypatch.setenv("HOME", "/home/nameless-shelter")
     assert helpers.get_hash_for_program("/home/nameless-shelter/abc") == UUID(
-        "0acc4435-07de-59bf-a1c3-a42f55aaca35"
+        "22e71c4d-8693-5b8e-867c-ccaf6d31389a"
     )
     assert helpers.get_hash_for_program("~/abc") == UUID(
-        "0acc4435-07de-59bf-a1c3-a42f55aaca35"
+        "22e71c4d-8693-5b8e-867c-ccaf6d31389a"
     )
     assert helpers.get_hash_for_program("/abc") == UUID(
-        "cf2f97e0-6eec-5407-aea0-bbecc488d451"
+        "24bdda4e-e28a-5a1c-92ff-6b988321616a"
     )
     assert helpers.get_hash_for_program("/./abc") == UUID(
-        "cf2f97e0-6eec-5407-aea0-bbecc488d451"
+        "24bdda4e-e28a-5a1c-92ff-6b988321616a"
     )
     assert helpers.get_hash_for_program("/xyz/../abc") == UUID(
-        "cf2f97e0-6eec-5407-aea0-bbecc488d451"
+        "24bdda4e-e28a-5a1c-92ff-6b988321616a"
     )
 
 
 def test_get_cache_path(monkeypatch):
     monkeypatch.setenv("HOME", "/home/nameless-shelter")
     assert helpers.get_cache_path("/abc") == Path(
-        "/home/nameless-shelter/.cache/nix-alien/cf2f97e0-6eec-5407-aea0-bbecc488d451"
+        "/home/nameless-shelter/.cache/nix-alien/24bdda4e-e28a-5a1c-92ff-6b988321616a"
     )
 
     monkeypatch.setenv("XDG_CACHE_HOME", "/")
     assert helpers.get_cache_path("/abc") == Path(
-        "/nix-alien/cf2f97e0-6eec-5407-aea0-bbecc488d451"
+        "/nix-alien/24bdda4e-e28a-5a1c-92ff-6b988321616a"
     )
 
 
@@ -48,7 +48,7 @@ def test_get_dest_path(monkeypatch):
         directory="bar",
         filename="foo.nix",
     ) == Path(
-        "/home/nameless-shelter/.cache/nix-alien/cf2f97e0-6eec-5407-aea0-bbecc488d451/bar/foo.nix"
+        "/home/nameless-shelter/.cache/nix-alien/24bdda4e-e28a-5a1c-92ff-6b988321616a/bar/foo.nix"
     )
 
     monkeypatch.setenv("XDG_CACHE_HOME", "/")
@@ -57,7 +57,7 @@ def test_get_dest_path(monkeypatch):
         program="/abc",
         directory="bar",
         filename="foo.nix",
-    ) == Path("/nix-alien/cf2f97e0-6eec-5407-aea0-bbecc488d451/bar/foo.nix")
+    ) == Path("/nix-alien/24bdda4e-e28a-5a1c-92ff-6b988321616a/bar/foo.nix")
 
     assert helpers.get_dest_path(
         destination="/quux",

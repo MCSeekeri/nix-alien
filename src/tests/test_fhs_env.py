@@ -15,11 +15,9 @@ def test_create_fhs_env_drv(mock_find_libs, pytestconfig):
         fhs_env.create_fhs_env_drv("xyz", additional_packages=["libGL"])
         == """\
 { pkgs ? import
-    (builtins.fetchTarball {
-      name = "nixpkgs-unstable-@nixpkgsLastModifiedDate@";
-      url = "https://github.com/NixOS/nixpkgs/archive/@nixpkgsRev@.tar.gz";
-      sha256 = "@nixpkgsHash@";
-    })
+    (let p = "@nixpkgsPath@";
+     in if builtins.pathExists p then builtins.storePath p
+        else builtins.fetchTree "@nixpkgsRef@")
     { }
 }:
 
@@ -53,11 +51,9 @@ def test_create_fhs_env_drv_with_spaces(mock_find_libs, pytestconfig):
         fhs_env.create_fhs_env_drv("x y z", additional_packages=["libGL"])
         == """\
 { pkgs ? import
-    (builtins.fetchTarball {
-      name = "nixpkgs-unstable-@nixpkgsLastModifiedDate@";
-      url = "https://github.com/NixOS/nixpkgs/archive/@nixpkgsRev@.tar.gz";
-      sha256 = "@nixpkgsHash@";
-    })
+    (let p = "@nixpkgsPath@";
+     in if builtins.pathExists p then builtins.storePath p
+        else builtins.fetchTree "@nixpkgsRef@")
     { }
 }:
 
@@ -95,7 +91,7 @@ def test_create_fhs_env_drv_flake(mock_machine, mock_find_libs, pytestconfig):
 {
   description = "xyz-fhs";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/@nixpkgsRev@";
+  inputs.nixpkgs.url = "@nixpkgsRef@";
 
   outputs = { self, nixpkgs }:
     let
@@ -236,7 +232,7 @@ def test_main_with_print(monkeypatch, capsys):
     assert (
         out
         == """\
-/home/nameless-shelter/.cache/nix-alien/d51a223b-43f0-56c6-b5c8-2404823026ac/fhs-env/default.nix
+/home/nameless-shelter/.cache/nix-alien/b0c4a444-f16c-5593-aecf-9fb189321aad/fhs-env/default.nix
 """
     )
 
@@ -246,6 +242,6 @@ def test_main_with_print(monkeypatch, capsys):
     assert (
         out
         == """\
-/home/nameless-shelter/.cache/nix-alien/d51a223b-43f0-56c6-b5c8-2404823026ac/fhs-env/flake.nix
+/home/nameless-shelter/.cache/nix-alien/b0c4a444-f16c-5593-aecf-9fb189321aad/fhs-env/flake.nix
 """
     )
